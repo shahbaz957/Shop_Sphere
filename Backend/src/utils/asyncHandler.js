@@ -1,4 +1,4 @@
-export const aysncHandler = (fn) => {
+export const asyncHandler = (fn) => {
   return (req, res, next) => {
     Promise.resolve(fn(req, res)).catch((err) => {
       next(err);

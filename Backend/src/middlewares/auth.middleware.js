@@ -1,9 +1,9 @@
-import { User } from "../models/user.models";
-import { ApiError } from "../utils/ApiError";
-import { aysncHandler } from "../utils/asyncHandler";
+import { User } from "../models/user.models.js";
+import { ApiError } from "../utils/ApiError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
-export const verifyJWT = aysncHandler(async (req, _, next) => {
+export const verifyJWT = asyncHandler(async (req, _, next) => {
   try {
     const token =
       req.cookies?.accessToken ||
@@ -19,8 +19,7 @@ export const verifyJWT = aysncHandler(async (req, _, next) => {
     // this verified now contain the payload data that you signed while signing
 
     const user = await User.findById(verified?._id).select(
-      "-password",
-      "-refreshTokens"
+      "-password -refreshTokens"
     );
 
     if (!user) {

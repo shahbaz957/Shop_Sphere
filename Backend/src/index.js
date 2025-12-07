@@ -1,20 +1,18 @@
-import express from "express";
 import dotenv from "dotenv";
-import cors from "cors";
 import connectDB from "./db/connect.js";
+import { app } from "./app.js";
 
-dotenv.config();
-const app = express(); // this is your main object you can say your whole server is saved in this variable
-
-app.use(cors());
-app.use(express.json()); // for parsing incoming json data
-  
-app.get("/", (req, res) => {
-  res.send("Your app is running ....!!!");
+dotenv.config({
+  path: "./.env",
 });
-
-connectDB();
-
-app.listen(process.env.PORT, () =>
-  console.log(`Server is running on Port : ${process.env.PORT}`)
-);
+  
+connectDB()
+  .then(() => {
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`Server is Listening at ${process.env.PORT || 8000}`);
+    });
+  })
+  .catch((err) => {
+    console.log("MongoDB Is not properly Connected !!!");
+    console.log(err);
+  });

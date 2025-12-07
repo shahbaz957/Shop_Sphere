@@ -7,7 +7,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const uploadCloudinary = async (filePath) => {
+export const uploadCloudinary = async (filePath) => {
   try {
     if (!filePath) {
       console.log("No filePath is provided");

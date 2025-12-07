@@ -11,7 +11,7 @@ const userSchema = new Schema(
       unique: true,
       index: true,
     },
-    email: {
+    email: {  
       type: String,
       required: true,
       unique: true,
@@ -24,7 +24,7 @@ const userSchema = new Schema(
       trim: true,
       index: true,
     },
-    coverImage: {
+    profileImage: {
       url: {
         type: String,
       },
@@ -43,7 +43,6 @@ const userSchema = new Schema(
     },
     refreshTokens: {
       type: String,
-      required : true
     },
     // Foreign Key of Cart
     cartId: {
@@ -56,11 +55,12 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10); // for every change in DB related to the user we hash the password subsequently
-  next();
+userSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
+  this.password = await bcrypt.hash(this.password, 10);
 });
+
+
 
 userSchema.methods.generateAccessTokens = function () {
   return jwt.sign(
