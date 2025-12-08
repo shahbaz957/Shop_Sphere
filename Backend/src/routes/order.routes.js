@@ -12,10 +12,10 @@ import { verifyAdmin } from "../middlewares/verifyAdmin.middleware.js";
 
 const router = Router();
 router.use(verifyJWT);
-router.route("/order/:productId").post(orderProduct).delete(deleteOrder);
+router.route("/:productId").post(orderProduct).delete(deleteOrder);
 router.route("/all-orders").get(verifyAdmin, getAllOrders);
-router.route("/order").get(getOrdersByUser);
-router.route("/order/sale-earning").get(verifyAdmin, totalEarningAndSales);
-router.route("/toggle-order/:productId").post(verifyAdmin, toggleOrder);
+router.route("/").get(getOrdersByUser);
+router.route("/sale-earning").get(verifyAdmin, totalEarningAndSales);
+router.route("/toggle-order/:orderId").post(verifyAdmin, toggleOrder);
 
 export default router;

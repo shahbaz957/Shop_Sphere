@@ -43,9 +43,9 @@ const addToCart = asyncHandler(async (req, res) => {
   const itemsIndex = cart.Items.findIndex(
     (prod) => prod.ProductId.toString() === productId.toString()
   );
-
-  if (itemsIndex > -1) {
-    cart.Items.Quantity += 1;
+  console.log(itemsIndex)
+  if (itemsIndex > -1 && cart.Items[itemsIndex].Quantity < product.stock) {
+    cart.Items[itemsIndex].Quantity += 1;
   } else {
     cart.Items.push({
       ProductId: productId,
@@ -83,7 +83,7 @@ const deleteFromCart = asyncHandler(async (req, res) => {
   }
 
   cart.Items = cart.Items.filter(
-    (item) => item.ProductId.toString() === productId.toString()
+    (item) => item.ProductId.toString() !== productId.toString()
   );
   cart.save();
   const populatedCart = await Cart.findById(cart._id).populate("Items.ProductId");

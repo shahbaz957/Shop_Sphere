@@ -139,11 +139,11 @@ const toggleOrder =  asyncHandler(async (req , res) => {
     if (!req.user.isAdmin){
         throw new ApiError(401 , "Unauthorized Access");
     }
-    const {productId} = req.params;
-    if (!productId) {
-        throw new ApiError(422 , "Product Id is required")
+    const {orderId} = req.params;
+    if (!orderId) {
+        throw new ApiError(422 , "Order Id is required")
     }
-    const order = await Order.findOne({productId});
+    const order = await Order.findById(orderId);
     if (!order){
         throw new ApiError(404 , "Product Not Found")
     }

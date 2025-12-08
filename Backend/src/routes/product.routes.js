@@ -17,10 +17,11 @@ router.use(verifyJWT);
 router
   .route("/add-product")
   .post(upload.single("image"), verifyAdmin, addProduct);
-router.route("/delete-product").post(verifyAdmin, deleteProduct);
+// router.route("/delete-product").post(verifyAdmin, deleteProduct);
 router.route("/all-products").get(getAllProducts);
-router.route("/:productId").get(getProductById);
 router.route("/product-count").get(verifyAdmin, getProductCount);
 router.route("/product-low").get(verifyAdmin, getLowStockProducts);
+router.route("/:productId").get(getProductById).delete(verifyAdmin , deleteProduct);
+
 
 export default router;

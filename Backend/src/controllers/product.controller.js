@@ -11,19 +11,19 @@ const addProduct = asyncHandler(async (req, res) => {
   if (!user.isAdmin) {
     throw new ApiError(401, "Unauthorized Access");
   }
-  const { name, category, shortDesc, stock, price, description } = req.body;
+  const { title, category, shortDesc, stock, price, description } = req.body;
 
   const stockNumber = Number(stock);
   const priceNumber = Number(price);
   if (
-    [name, category, shortDesc, description].some((f) => !f || f.trim() === "")
+    [title, category, shortDesc, description].some((f) => !f || f.trim() === "")
   ) {
     throw new ApiError(422, "All fields are required");
   }
   if (isNaN(stockNumber) || isNaN(priceNumber)) {
     throw new ApiError(422, "Stock and Price must be numbers");
   }
-  const alreadyProduct = await Product.findOne({ name });
+  const alreadyProduct = await Product.findOne({ title });
   if (alreadyProduct) {
     const updatedProd = await Product.findByIdAndUpdate(
       alreadyProduct._id,
@@ -56,7 +56,7 @@ const addProduct = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Server error Cloudinary Upload Failed");
   }
   const newProduct = await Product.create({
-    name,
+    title,
     category,
     shortDesc,
     description,
@@ -141,6 +141,9 @@ const getProductById = asyncHandler(async (req, res) => {
   if (!product) {
     throw new ApiError(404, "Product Not Found");
   }
+  return res
+  .status(200)
+  .json(new ApiResponse(200 , product , "Product Fetched Successfully"))
 });
 
 const getProductCount = asyncHandler(async (req, res) => {
