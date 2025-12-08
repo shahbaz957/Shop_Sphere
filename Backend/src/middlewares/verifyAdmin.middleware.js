@@ -20,6 +20,7 @@ export const verifyAdmin = asyncHandler(async (req, res, next) => {
         );
     }
     user.isAdmin = true;
+    await user.save()
     req.user = user;
     next();
   } catch (error) {

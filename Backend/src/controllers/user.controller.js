@@ -64,18 +64,20 @@ const registerUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, createdUser, "User is registered Successfully"));
 });
 
-const generateAccessandRefreshTokens = asyncHandler(async (userId) => {
+const generateAccessandRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
     const refreshToken = user.generateRefreshTokens();
     const accessToken = user.generateAccessTokens();
+
     user.refreshTokens = refreshToken;
     await user.save({ validateBeforeSave: false });
+
     return { accessToken, refreshToken };
   } catch (error) {
     throw new ApiError(500, "Error Occured While Generating tokens");
   }
-});
+};  
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -83,7 +85,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(422, "Both Fields are required for Logging In");
   }
 
-  const user = await User.findOne({ $or: [{ email }, { password }] });
+   const user = await User.findOne({ email });
   if (!user) {
     throw new ApiError(404, "User not Found");
   }
@@ -98,27 +100,33 @@ const loginUser = asyncHandler(async (req, res) => {
   const loggedInUser = await User.findById(user._id).select(
     "-password -refreshTokens"
   );
+  console.log(loggedInUser)
+
 
   const options = {
-    httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-  };
+  httpOnly: true,
+  secure: false,                    
+  sameSite: "lax",                  
+  path: "/",                        
+  expires: new Date(Date.now() + 15 * 60 * 1000),  
+  maxAge: 15 * 60 * 1000         
+};
 
-  res
-    .status(201)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
-    .json(
-      new ApiResponse(201, {
-        user: loggedInUser,
-      }),
-      "User is Successfully Logged In"
-    );
+res
+  .status(200) 
+  .cookie("accessToken", accessToken, options)
+  .cookie("refreshToken", refreshToken, { ...options, maxAge: 10 * 24 * 60 * 60 * 1000, expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000) })
+  .json(
+    new ApiResponse(200, {
+      user: loggedInUser,
+      accessToken,    
+      refreshToken
+    }, "User logged in successfully")
+  );
 });
 
 const logOutUser = asyncHandler(async (req, res) => {
-  const user = req.user; // it is a secured Route so we have access to the user
+  const user = req.user;
   if (!user) {
     throw new ApiError(
       404,
