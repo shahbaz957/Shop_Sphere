@@ -1,9 +1,9 @@
-import { Cart } from "../models/Cart.model";
+import { Cart } from "../models/Cart.model.js";
 import mongoose from "mongoose";
-import { asyncHandler } from "../utils/asyncHandler";
-import { ApiError } from "../utils/ApiError";
-import { Product } from "../models/product.models";
-import { ApiResponse } from "../utils/ApiResponse";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { ApiError } from "../utils/ApiError.js";
+import { Product } from "../models/product.models.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 const getAllProductsFromCart = asyncHandler(async (req, res) => {
     const userId = req.user?._id;

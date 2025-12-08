@@ -5,10 +5,10 @@ import {
   orderProduct,
   toggleOrder,
   totalEarningAndSales,
-} from "../controllers/order.controller";
-import { verifyJWT } from "../middlewares/auth.middleware";
+} from "../controllers/order.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { Router } from "express";
-import { verifyAdmin } from "../middlewares/verifyAdmin.middleware";
+import { verifyAdmin } from "../middlewares/verifyAdmin.middleware.js";
 
 const router = Router();
 router.use(verifyJWT);

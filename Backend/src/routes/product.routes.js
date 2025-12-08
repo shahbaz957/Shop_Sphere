@@ -1,8 +1,8 @@
-import { verifyJWT } from "../middlewares/auth.middleware";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 import { Router } from "express";
-import { upload } from "../middlewares/multer.middleware";
-import { verifyAdmin } from "../middlewares/verifyAdmin.middleware";
+import { upload } from "../middlewares/multer.middleware.js";
+import { verifyAdmin } from "../middlewares/verifyAdmin.middleware.js";
 import {
   addProduct,
   deleteProduct,
@@ -10,7 +10,7 @@ import {
   getLowStockProducts,
   getProductById,
   getProductCount,
-} from "../controllers/product.controller";
+} from "../controllers/product.controller.js";
 
 const router = Router();
 router.use(verifyJWT);
