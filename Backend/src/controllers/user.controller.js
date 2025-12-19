@@ -50,7 +50,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new ApiError(501, "User is not Created Successfully");
   }
 
-  await Cart.create({ userId: user._id, Items: [] });
+  await Cart.create({ userId: user._id, Items: [] }); // just as a business Rule
 
   const createdUser = await User.findById(user._id).select(
     "-password -refreshTokens"

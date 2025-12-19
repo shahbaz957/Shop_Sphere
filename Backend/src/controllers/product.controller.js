@@ -125,7 +125,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         200,
-        { products, total, totalPages: Math.ceil(total / limit), page },
+        { products, page, totalPages: Math.ceil(total / limit), page },
         "Products are fetched Successfully"
       )
     );
