@@ -28,7 +28,7 @@ function ProductGrid() {
       product.shortDesc.toLowerCase().includes(query.toLowerCase()) ||
       product.description.toLowerCase().includes(query.toLowerCase())
   );
-  
+
   return (
     <div className="min-h-screen px-4 py-6 bg-gray-100">
       {/* Page heading */}
@@ -69,7 +69,7 @@ function ProductGrid() {
               <Product product={product} />
             </div>
           ))}
-          {filteredProducts.length === 0 && <h2>No Product Found</h2>}
+        {filteredProducts.length === 0 && <h2>No Product Found</h2>}
       </div>
 
       {/* Pagination Section */}

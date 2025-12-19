@@ -1,6 +1,6 @@
-import React from 'react'
-import Header from "../components/Header.jsx"
-import ProductGrid from '../components/ProductGrid'
+import React from "react";
+import Header from "../components/Header.jsx";
+import ProductGrid from "../components/ProductGrid";
 function Home() {
   return (
     <div className="min-h-screen bg-gray-100">
@@ -13,7 +13,7 @@ function Home() {
         <ProductGrid />
       </main>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

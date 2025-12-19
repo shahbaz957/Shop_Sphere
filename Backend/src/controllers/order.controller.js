@@ -68,6 +68,7 @@ const getOrdersByUser = asyncHandler(async (req, res) => {
     userId,
     status: "Pending",
   }).populate("productId");
+  
   const deliveredOrders = await Order.find({
     userId,
     status: "Delivered",
@@ -88,21 +89,40 @@ const getOrdersByUser = asyncHandler(async (req, res) => {
 
 const deleteOrder = asyncHandler(async (req, res) => {
   const userId = req.user._id;
-  const { productId } = req.params;
-  if (!productId) {
-    throw new ApiError(422, "ProductId is needed");
+  const { orderId } = req.params;
+
+  if (!orderId) {
+    throw new ApiError(422, "orderId is needed");
   }
   if (!userId) {
     throw new ApiError(401, "Unauthorized Action");
   }
-  const deletedOrder = await Order.deleteOne({ userId, productId });
-  if (deletedOrder.deletedCount === 0) {
-    throw new ApiError(404, "Order to be deleted not found");
+
+  const order = await Order.findById(orderId);
+  if (!order) {
+    throw new ApiError(404, "Order not found");
   }
+
+  const product = await Product.findById(order.productId);
+  if (product) {
+    product.stock += order.quantity;
+    await product.save();
+  }
+
+  const deletedOrder = await Order.findOneAndDelete({
+    _id: orderId,
+    userId
+  });
+
+  if (!deletedOrder) {
+    throw new ApiError(404, "Order is not deleted");
+  }
+
   return res
     .status(200)
     .json(new ApiResponse(200, deletedOrder, "Order is Deleted Successfully"));
 });
+
 
 const totalEarningAndSales = asyncHandler(async (req, res) => {
   if (!req.user.isAdmin) {

@@ -1,17 +1,17 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
 import api from "../api/axios";
+import { Link, useNavigate } from "react-router-dom";
 
-function Product({ product }) {
-  const handleAddCart = async (id) => {
+function CartProducts({ product, refreshCart }) {
+  const handleDeleteCart = async (id) => {
     try {
-      await api.post(`/cart/add-cart/${id}`);
+      await api.delete(`/cart/delete-cart/${id}`);
+      if (refreshCart) refreshCart();
     } catch (error) {
-      console.error(error?.message);
+      console.error(error.message);
     }
   };
   const navigate = useNavigate();
-
   return (
     <div className="flex flex-col p-4 bg-white h-full">
       {/* Product Image */}
@@ -41,19 +41,19 @@ function Product({ product }) {
       {/* Buttons */}
       <div className="mt-4 flex gap-2">
         <button
-          onClick={() => handleAddCart(product._id)}
+          onClick={() => handleDeleteCart(product._id)}
           className="
             flex-1
-            bg-blue-500 
+            bg-red-500 
             text-white 
             py-2 
             rounded-lg 
-            hover:bg-blue-600 
+            hover:bg-red-600 
             transition
             font-medium
           "
         >
-          Add to Cart
+          Delete from Cart
         </button>
 
         <button
@@ -76,4 +76,4 @@ function Product({ product }) {
   );
 }
 
-export default Product;
+export default CartProducts;

@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
-import { SearchContext } from '../context/searchContext'
+import React, { useContext } from "react";
+import { SearchContext } from "../context/searchContext";
 
 function SearchBar() {
-    const {query , setQuery} = useContext(SearchContext);
+  const { query, setQuery } = useContext(SearchContext);
   return (
     <div className="w-full flex justify-center mt-4">
       <input
@@ -14,7 +14,7 @@ function SearchBar() {
                    focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
-  )
+  );
 }
 
-export default SearchBar
+export default SearchBar;
