@@ -34,7 +34,7 @@ function Register() {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res);
+      // console.log(res);
       setUser(res.data.data);
       navigate("/login");
     } catch (error) {

@@ -12,7 +12,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const { username, email, fullName, profileImage, password } = req.body;
   console.log(username);
   if (
-    [username, email, fullName, profileImage, password].some(
+    [username, email, fullName, password].some(
       (field) => field?.trim() === ""
     )
   ) {
@@ -77,7 +77,7 @@ const generateAccessandRefreshTokens = async (userId) => {
   } catch (error) {
     throw new ApiError(500, "Error Occured While Generating tokens");
   }
-};  
+};
 
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -85,7 +85,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new ApiError(422, "Both Fields are required for Logging In");
   }
 
-   const user = await User.findOne({ email });
+  const user = await User.findOne({ email });
   if (!user) {
     throw new ApiError(404, "User not Found");
   }
@@ -100,26 +100,29 @@ const loginUser = asyncHandler(async (req, res) => {
   const loggedInUser = await User.findById(user._id).select(
     "-password -refreshTokens"
   );
-  console.log(loggedInUser)
-
+  console.log(loggedInUser);
 
   const options = {
-  httpOnly: true,
-  secure: false,                    
-  sameSite: "lax",                        
-};
+    httpOnly: true,
+    secure: false,
+    sameSite: "lax",
+  };
 
-res
-  .status(200) 
-  .cookie("accessToken", accessToken, options)
-  .cookie("refreshToken", refreshToken,options )
-  .json(
-    new ApiResponse(200, {
-      user: loggedInUser,
-      accessToken,    
-      refreshToken
-    }, "User logged in successfully")
-  );
+  res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        {
+          user: loggedInUser,
+          accessToken,
+          refreshToken,
+        },
+        "User logged in successfully"
+      )
+    );
 });
 
 const logOutUser = asyncHandler(async (req, res) => {
@@ -191,4 +194,11 @@ const getTotalUserCount = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, total, "Total Count is Fetched"));
 });
 
-export { registerUser, loginUser, logOutUser, getCurrentUser, getAllUser , getTotalUserCount };
+export {
+  registerUser,
+  loginUser,
+  logOutUser,
+  getCurrentUser,
+  getAllUser,
+  getTotalUserCount,
+};

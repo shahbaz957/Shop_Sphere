@@ -49,7 +49,7 @@ const getAllOrders = asyncHandler(async (req, res) => {
   if (!req.user.isAdmin) {
     throw new ApiError(401, "Unauthorized Access. Failed to Access");
   }
-  const orders = await Order.find({ status: "Pending" }).populate("productId");
+  const orders = await Order.find({ status: "Pending" }).populate("productId").populate("userId");
   if (!orders) {
     throw new ApiError(500, "Server Failed to Fetch the Orders");
   }
