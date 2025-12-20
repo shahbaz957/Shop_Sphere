@@ -10,7 +10,7 @@ function Login() {
     email: "",
   });
 
-  const {user , setUser} = useContext(AuthContext)
+  const {setUser} = useContext(AuthContext)
 
   const handleChange = (e) => {
     setLoginInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));

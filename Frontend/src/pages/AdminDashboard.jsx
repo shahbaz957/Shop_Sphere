@@ -34,7 +34,7 @@ function AdminDashboard() {
   }, []);
   const handleLogout = async () => {
     try {
-      const res = await api.post("/user/logout");
+      await api.post("/user/logout");
       // console.log(res);
       
       setUser(null);
