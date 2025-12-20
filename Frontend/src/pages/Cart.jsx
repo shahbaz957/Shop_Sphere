@@ -13,7 +13,7 @@ function Cart() {
       const res = await api.get("/cart/all-cart/");
       setCartProducts(res.data.data.cart.Items);
       setTotal(res.data.data.total);
-      console.log(res.data.data.cart.Items);
+      console.log("printing this : " , res.data.data.cart.Items);
     } catch (error) {
       console.error(error.message);
     }

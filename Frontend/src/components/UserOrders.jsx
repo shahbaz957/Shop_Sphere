@@ -9,7 +9,7 @@ function UserOrders({ order, refreshOrders }) {
 
   return (
     <div className="grid grid-cols-6 items-center py-3 border-b text-gray-700">
-      <p className="font-medium">{order.productId.title}</p>
+      <p className="font-medium">{order.productId?.title}</p>
       <p>{order.quantity}</p>
       <p>${order.UnitPrice}</p>
       <p className="font-semibold">${order.UnitPrice * order.quantity}</p>

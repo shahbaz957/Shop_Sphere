@@ -17,8 +17,14 @@ function Login() {
     e.preventDefault();
     try {
       const res = await api.post("/user/login", loginInfo);
-      console.log(res);
-      navigate("/home");
+      // console.log(res);
+      const user = res.data.data.user
+      console.log(user)
+      if (user.isAdmin){
+        navigate('/admin/dashboard');
+      }else {
+        navigate("/home");
+      }
     } catch (error) {
       console.error(error.message);
     }

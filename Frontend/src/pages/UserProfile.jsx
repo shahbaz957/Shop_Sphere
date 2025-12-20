@@ -24,6 +24,7 @@ function UserProfile() {
   useEffect(() => {
     fetchOrders();
   }, []);
+  if (!user) return <h1>Fetching...</h1>
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -31,12 +32,12 @@ function UserProfile() {
       {/* Profile Header */}
       <div className="flex items-center gap-6 bg-white p-6 rounded-xl shadow-md w-80">
         <img
-          src={user.profileImage.url}
-          alt={user.username}
+          src={user?.profileImage.url}
+          alt={user?.username}
           className="w-32 h-32 rounded-full object-cover border-4 border-blue-500"
         />
         <div>
-          <h1 className="text-2xl font-bold">{user.fullName}</h1>
+          <h1 className="text-2xl font-bold">{user?.fullName}</h1>
           <p className="text-gray-500">@{user.username}</p>
         </div>
       </div>

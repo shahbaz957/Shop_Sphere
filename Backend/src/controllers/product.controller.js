@@ -5,6 +5,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadCloudinary } from "../utils/cloudinary.js";
 import { v2 as cloudinary } from "cloudinary";
+import { Cart } from "../models/Cart.model.js";
 
 const addProduct = asyncHandler(async (req, res) => {
   const user = req.user;
@@ -86,7 +87,10 @@ const deleteProduct = asyncHandler(async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(productId)) {
     throw new ApiError(409, "Product Id is Invalid");
   }
-
+  await Cart.updateMany(
+    { "Items.ProductId": productId },
+    { $pull: { Items: { ProductId: productId } } }
+  );
   const product = await Product.findById(productId);
   if (!product) {
     throw new ApiError(404, "Product Not Found");
