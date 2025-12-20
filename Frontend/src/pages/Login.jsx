@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import api from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 
 function Login() {
   const navigate = useNavigate();
@@ -8,6 +9,8 @@ function Login() {
     password: "",
     email: "",
   });
+
+  const {user , setUser} = useContext(AuthContext)
 
   const handleChange = (e) => {
     setLoginInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -17,10 +20,13 @@ function Login() {
     e.preventDefault();
     try {
       const res = await api.post("/user/login", loginInfo);
-      // console.log(res);
-      const user = res.data.data.user
-      console.log(user)
-      if (user.isAdmin){
+      console.log("THis is response >>>>> " , res , "Ended here");
+      const user_ = res.data.data.user
+      const { accessToken, refreshToken } = res.data.data;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      setUser(user_);
+      if (user_.isAdmin){
         navigate('/admin/dashboard');
       }else {
         navigate("/home");

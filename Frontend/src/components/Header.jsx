@@ -11,8 +11,11 @@ function Header() {
   const handleLogout = async () => {
     try {
       const res = await api.post("/user/logout");
-      console.log(res);
+      // console.log(res);
+
       setUser(null);
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
       navigate("/login");
     } catch (error) {
       console.log(error.message);
