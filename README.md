@@ -122,5 +122,5 @@ CLOUDINARY_API_SECRET=your_api_secret
 
 Mirza Shahbaz Ali Baig
 
-* GitHub: https://github.com/shahbaz957
+* LinkedIn: https://www.linkedin.com/in/mirza-shahbaz-ali-baig-3391b3248/
 * Email: mirzashahbazbaig724@gmail.com
